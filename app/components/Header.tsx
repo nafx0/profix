@@ -56,7 +56,7 @@ export default function Header({ onBookClick }: HeaderProps) {
     <>
       <header
         className={`nav-header transition-all duration-300 ${
-          isScrolled ? 'bg-background/80 backdrop-blur-lg' : ''
+          isScrolled ? 'nav-header--scrolled' : 'nav-header--top'
         }`}
       >
         <nav className="nav-inner" aria-label="Main navigation">
@@ -115,18 +115,11 @@ export default function Header({ onBookClick }: HeaderProps) {
               strokeLinecap="round"
               strokeLinejoin="round"
             >
-              {isMobileMenuOpen ? (
-                <>
-                  <line x1="18" y1="6" x2="6" y2="18" />
-                  <line x1="6" y1="6" x2="18" y2="18" />
-                </>
-              ) : (
-                <>
-                  <line x1="3" y1="6" x2="21" y2="6" />
-                  <line x1="3" y1="12" x2="21" y2="12" />
-                  <line x1="3" y1="18" x2="21" y2="18" />
-                </>
-              )}
+              <>
+                <line x1="3" y1="6" x2="21" y2="6" />
+                <line x1="3" y1="12" x2="21" y2="12" />
+                <line x1="3" y1="18" x2="21" y2="18" />
+              </>
             </svg>
           </button>
         </nav>
@@ -143,7 +136,7 @@ export default function Header({ onBookClick }: HeaderProps) {
             transition={{ duration: 0.2 }}
             className="fixed inset-0 z-50 bg-background/95 backdrop-blur-xl md:hidden"
           >
-            <div className="flex flex-col h-full pt-20 px-6">
+            <div className="flex flex-col h-full px-6 items-center justify-center">
               {/* Close Button */}
               <button
                 onClick={() => setIsMobileMenuOpen(false)}
@@ -166,8 +159,8 @@ export default function Header({ onBookClick }: HeaderProps) {
               </button>
 
               {/* Mobile Nav Links */}
-              <nav aria-label="Mobile navigation">
-                <ul className="space-y-6">
+              <nav aria-label="Mobile navigation" className="w-full max-w-xs">
+                <ul className="space-y-6 text-center">
                   {navLinks.map((link, index) => (
                     <motion.li
                       key={link.href}
@@ -184,27 +177,24 @@ export default function Header({ onBookClick }: HeaderProps) {
                       </Link>
                     </motion.li>
                   ))}
+                  <motion.li
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: navLinks.length * 0.1 + 0.2 }}
+                  >
+                    <button
+                      onClick={() => {
+                        setIsMobileMenuOpen(false);
+                        onBookClick();
+                      }}
+                      className="btn btn-primary btn-lg w-full mt-4"
+                      aria-label="Book a call with a technician"
+                    >
+                      Book a Call
+                    </button>
+                  </motion.li>
                 </ul>
               </nav>
-
-              {/* Mobile CTA */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.4 }}
-                className="mt-auto mb-12"
-              >
-                <button
-                  onClick={() => {
-                    setIsMobileMenuOpen(false);
-                    onBookClick();
-                  }}
-                  className="btn btn-primary btn-lg w-full"
-                  aria-label="Book a call with a technician"
-                >
-                  Book a Call
-                </button>
-              </motion.div>
             </div>
           </motion.div>
         )}

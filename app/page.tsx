@@ -27,7 +27,7 @@ function Footer() {
   return (
     <footer className="section bg-background border-t border-white/6">
       <div className="section-container">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
           {/* Brand Column */}
           <div className="md:col-span-1">
             <h3 className="text-lg font-semibold text-white/90 mb-4">
@@ -166,7 +166,7 @@ function Footer() {
           <p className="text-xs text-white/40">
             © {currentYear} Profix Auto Care. All rights reserved.
           </p>
-          <div className="flex gap-6">
+          <div className="flex flex-wrap justify-center md:justify-end gap-4 md:gap-6">
             <a
               href="/privacy"
               className="text-xs text-white/40 hover:text-white/60 transition-colors"
@@ -307,13 +307,13 @@ function BrandsSection() {
               {brands.map((brand, i) => (
                 <div
                   key={`${brand.name}-${setIndex}-${i}`}
-                  className="w-24 h-24 grayscale hover:grayscale-0 transition-all duration-500 opacity-50 hover:opacity-100 flex items-center justify-center shrink-0"
+                  className="w-24 h-24 flex items-center justify-center shrink-0 opacity-70 hover:opacity-100 transition-all duration-500"
                 >
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={brand.logo}
                     alt={brand.name}
-                    className="w-full h-full object-contain filter drop-shadow-lg"
+                    className="w-16 h-16 object-contain invert grayscale brightness-150"
                   />
                 </div>
               ))}
