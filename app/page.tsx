@@ -1,11 +1,12 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import Script from 'next/script';
 import { motion } from 'framer-motion'; // Added for section animations
 import Header from './components/Header';
 import ServicesBento from './components/ServicesBento';
+import GoogleReviews from './components/GoogleReviews';
 
 // Dynamic import for CarScroll to reduce initial bundle size
 const CarScroll = dynamic(() => import('./components/CarScroll'), {
@@ -481,6 +482,11 @@ export default function Home() {
         {/* Services Bento Grid */}
         <FadeIn>
           <ServicesBento />
+        </FadeIn>
+
+        {/* Testimonials - Now Google Reviews */}
+        <FadeIn delay={0.1}>
+          <GoogleReviews />
         </FadeIn>
 
 
