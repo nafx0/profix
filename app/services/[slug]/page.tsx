@@ -1,8 +1,8 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
-const WHATSAPP_URL = 'https://wa.me/971501234567';
-const PHONE = '+971 4 123 4567';
+const WHATSAPP_URL = 'https://web.whatsapp.com/send?phone=971509894674&text=';
+const PHONE = '+971 50 989 4674';
 
 interface ServiceConfig {
   slug: string;
@@ -294,7 +294,7 @@ export default function ServicePage({ params }: ServicePageProps) {
             <p className="text-sm text-white/70">{service.short}</p>
             <div className="border-t border-white/10 pt-4 mt-2 space-y-2 text-xs text-white/60">
               <p>
-                <strong className="text-white/80">Location:</strong> Al Quoz Industrial Area 3, Dubai
+                <strong className="text-white/80">Location:</strong> Al Quoz 3, Dubai, UAE
               </p>
               <p>
                 <strong className="text-white/80">Brands:</strong> Mercedes-Benz, BMW, Audi, Porsche, Volkswagen & more

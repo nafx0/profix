@@ -2,6 +2,8 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import CustomSelect from './CustomSelect';
+import CustomDatePicker from './CustomDatePicker';
 
 interface BookingModalProps {
   isOpen: boolean;
@@ -115,6 +117,13 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
     setFormData((prev) => ({
       ...prev,
       [name]: type === 'checkbox' ? checked : value,
+    }));
+  };
+
+  const handleSelectChange = (name: string, value: string) => {
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
     }));
   };
 
@@ -328,84 +337,43 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
 
                     {/* Vehicle Brand & Service Type Row */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      <div className="form-group">
-                        <label htmlFor="vehicleBrand" className="form-label">
-                          Vehicle Brand <span className="text-red-400">*</span>
-                        </label>
-                        <select
-                          id="vehicleBrand"
-                          name="vehicleBrand"
-                          value={formData.vehicleBrand}
-                          onChange={handleInputChange}
-                          className="form-select"
-                          required
-                        >
-                          {vehicleBrands.map((brand) => (
-                            <option key={brand.value} value={brand.value}>
-                              {brand.label}
-                            </option>
-                          ))}
-                        </select>
-                      </div>
+                      <CustomSelect
+                        label="Vehicle Brand"
+                        options={vehicleBrands}
+                        value={formData.vehicleBrand}
+                        onChange={(value) => handleSelectChange('vehicleBrand', value)}
+                        required
+                        placeholder="Select Brand"
+                      />
 
-                      <div className="form-group">
-                        <label htmlFor="serviceType" className="form-label">
-                          Service Type <span className="text-red-400">*</span>
-                        </label>
-                        <select
-                          id="serviceType"
-                          name="serviceType"
-                          value={formData.serviceType}
-                          onChange={handleInputChange}
-                          className="form-select"
-                          required
-                        >
-                          {serviceTypes.map((service) => (
-                            <option key={service.value} value={service.value}>
-                              {service.label}
-                            </option>
-                          ))}
-                        </select>
-                      </div>
+                      <CustomSelect
+                        label="Service Type"
+                        options={serviceTypes}
+                        value={formData.serviceType}
+                        onChange={(value) => handleSelectChange('serviceType', value)}
+                        required
+                        placeholder="Select Service"
+                      />
                     </div>
 
                     {/* Date & Time Row */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      <div className="form-group">
-                        <label htmlFor="preferredDate" className="form-label">
-                          Preferred Date <span className="text-red-400">*</span>
-                        </label>
-                        <input
-                          type="date"
-                          id="preferredDate"
-                          name="preferredDate"
-                          value={formData.preferredDate}
-                          onChange={handleInputChange}
-                          className="form-input"
-                          min={getMinDate()}
-                          required
-                        />
-                      </div>
+                      <CustomDatePicker
+                        label="Preferred Date"
+                        value={formData.preferredDate}
+                        onChange={(value) => handleSelectChange('preferredDate', value)}
+                        required
+                        minDate={getMinDate()}
+                      />
 
-                      <div className="form-group">
-                        <label htmlFor="preferredTime" className="form-label">
-                          Preferred Time <span className="text-red-400">*</span>
-                        </label>
-                        <select
-                          id="preferredTime"
-                          name="preferredTime"
-                          value={formData.preferredTime}
-                          onChange={handleInputChange}
-                          className="form-select"
-                          required
-                        >
-                          {timeSlots.map((slot) => (
-                            <option key={slot.value} value={slot.value}>
-                              {slot.label}
-                            </option>
-                          ))}
-                        </select>
-                      </div>
+                      <CustomSelect
+                        label="Preferred Time"
+                        options={timeSlots}
+                        value={formData.preferredTime}
+                        onChange={(value) => handleSelectChange('preferredTime', value)}
+                        required
+                        placeholder="Select Time"
+                      />
                     </div>
 
                     {/* Message */}
@@ -444,10 +412,23 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
 
                   {/* Submit Button */}
                   <div className="mt-8">
+                    {!formData.consent && (
+                      <motion.p
+                        initial={{ opacity: 0, y: -5 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="text-red-400 text-xs text-center mb-3"
+                      >
+                        * You must accept the terms to request a call back
+                      </motion.p>
+                    )}
                     <button
                       type="submit"
-                      disabled={isSubmitting}
-                      className="btn btn-primary w-full"
+                      disabled={isSubmitting || !formData.consent}
+                      className={`btn w-full transition-all duration-200 ${
+                        !formData.consent
+                          ? "bg-white/10 text-white/40 cursor-not-allowed"
+                          : "btn-primary"
+                      }`}
                       aria-label="Submit call request"
                     >
                       {isSubmitting ? (

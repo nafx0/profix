@@ -2,9 +2,10 @@
 
 import { useState } from 'react';
 import dynamic from 'next/dynamic';
+import Script from 'next/script';
+import { motion } from 'framer-motion'; // Added for section animations
 import Header from './components/Header';
 import ServicesBento from './components/ServicesBento';
-import BookingModal from './components/BookingModal';
 
 // Dynamic import for CarScroll to reduce initial bundle size
 const CarScroll = dynamic(() => import('./components/CarScroll'), {
@@ -16,6 +17,19 @@ const CarScroll = dynamic(() => import('./components/CarScroll'), {
     </div>
   ),
 });
+
+// Animation Component
+const FadeIn = ({ children, delay = 0, className = "" }: { children: React.ReactNode, delay?: number, className?: string }) => (
+  <motion.div
+    initial={{ opacity: 0, y: 20 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true, margin: "-100px" }} // Trigger earlier
+    transition={{ duration: 0.6, delay, ease: [0.22, 1, 0.36, 1] }}
+    className={className}
+  >
+    {children}
+  </motion.div>
+);
 
 // ============================================
 // FOOTER COMPONENT
@@ -129,25 +143,25 @@ function Footer() {
             <ul className="space-y-3">
               <li>
                 <p className="text-sm text-white/60">
-                  Al Quoz Industrial Area 3
+                  Al Quoz 3
                   <br />
                   Dubai, UAE
                 </p>
               </li>
               <li>
                 <a
-                  href="tel:+97141234567"
+                  href="tel:+971509894674"
                   className="text-sm text-white/60 hover:text-white/90 transition-colors"
                 >
-                  +971 4 123 4567
+                  +971 50 989 4674
                 </a>
               </li>
               <li>
                 <a
-                  href="mailto:service@profixautocare.ae"
+                  href="mailto:info@profixautocare.com"
                   className="text-sm text-white/60 hover:text-white/90 transition-colors"
                 >
-                  service@profixautocare.ae
+                  info@profixautocare.com
                 </a>
               </li>
               <li className="pt-2">
@@ -187,102 +201,16 @@ function Footer() {
 }
 
 // ============================================
-// TESTIMONIALS SECTION
-// ============================================
-
-function TestimonialsSection() {
-  const testimonials = [
-    {
-      id: 1,
-      quote:
-        'Best BMW service in Dubai. They diagnosed an issue three other shops missed. Professional and transparent.',
-      author: 'Ahmed K.',
-      vehicle: 'BMW M5',
-      rating: 5,
-    },
-    {
-      id: 2,
-      quote:
-        'Exceptional service for my Porsche 911. They treat every car like it\'s their own. Highly recommend!',
-      author: 'Sarah M.',
-      vehicle: 'Porsche 911 Carrera',
-      rating: 5,
-    },
-    {
-      id: 3,
-      quote:
-        'Finally found a Mercedes specialist I can trust. Fair prices, OEM parts, and great communication.',
-      author: 'James L.',
-      vehicle: 'Mercedes-AMG C63',
-      rating: 5,
-    },
-  ];
-
-  return (
-    <section className="section bg-background" aria-labelledby="testimonials-title">
-      <div className="section-container">
-        <div className="section-header">
-          <h2 id="testimonials-title" className="section-title text-white/90">
-            What Our Clients Say
-          </h2>
-          <p className="section-description text-white/60">
-            Trusted by German car enthusiasts across Dubai.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {testimonials.map((testimonial) => (
-            <div
-              key={testimonial.id}
-              className="glass-card p-8"
-              role="article"
-              aria-label={`Testimonial from ${testimonial.author}`}
-            >
-              {/* Rating Stars */}
-              <div className="flex gap-1 mb-4">
-                {Array.from({ length: testimonial.rating }).map((_, i) => (
-                  <svg
-                    key={i}
-                    width="16"
-                    height="16"
-                    viewBox="0 0 24 24"
-                    fill="#fbbf24"
-                    aria-hidden="true"
-                  >
-                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-                  </svg>
-                ))}
-              </div>
-
-              {/* Quote */}
-              <blockquote className="text-white/80 text-sm leading-relaxed mb-6">
-                &ldquo;{testimonial.quote}&rdquo;
-              </blockquote>
-
-              {/* Author */}
-              <div>
-                <p className="text-white/90 font-medium">{testimonial.author}</p>
-                <p className="text-white/40 text-sm">{testimonial.vehicle}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-// ============================================
 // BRANDS SECTION
 // ============================================
 
 const brands = [
-  { name: 'Mercedes-Benz', logo: '/assets/logos/mercedes-me-svgrepo-com.svg' },
-  { name: 'BMW', logo: '/assets/logos/bmw-svgrepo-com.svg' },
-  { name: 'Porsche', logo: '/assets/logos/porsche-6-logo-svgrepo-com.svg' },
-  { name: 'Audi', logo: '/assets/logos/audi-svgrepo-com.svg' },
-  { name: 'Volkswagen', logo: '/assets/logos/volkswagen-10-logo-svgrepo-com.svg' },
-  { name: 'Toyota', logo: '/assets/logos/toyota-svgrepo-com.svg' },
+  { name: 'Mercedes-Benz', logo: '/assets/logos/10bec0d422a840be364603ac31429d9d.mercedes.webp' },
+  { name: 'BMW', logo: '/assets/logos/10bec0d422a840be364603ac31429d9d.bmw.webp' },
+  { name: 'Porsche', logo: '/assets/logos/10bec0d422a840be364603ac31429d9d.porshe.webp' },
+  { name: 'Audi', logo: '/assets/logos/10bec0d422a840be364603ac31429d9d.audi.png' },
+  { name: 'Volkswagen', logo: '/assets/logos/10bec0d422a840be364603ac31429d9d.wagon.webp' },
+  { name: 'Toyota', logo: '/assets/logos/10bec0d422a840be364603ac31429d9d.toyota.png' },
 ];
 
 function BrandsSection() {
@@ -313,7 +241,7 @@ function BrandsSection() {
                   <img
                     src={brand.logo}
                     alt={brand.name}
-                    className="w-16 h-16 object-contain invert grayscale brightness-150"
+                    className="w-16 h-16 object-contain"
                   />
                 </div>
               ))}
@@ -351,11 +279,7 @@ function MobileCTA({ onBookClick }: MobileCTAProps) {
 // CALL-FOCUSED CTA STRIP
 // ============================================
 
-interface CallToActionStripProps {
-  onBookClick: () => void;
-}
-
-function CallToActionStrip({ onBookClick }: CallToActionStripProps) {
+function CallToActionStrip() {
   return (
     <section className="section bg-[#050505] border-t border-white/10" aria-labelledby="cta-strip-title">
       <div className="section-container flex flex-col md:flex-row items-center justify-between gap-6">
@@ -367,23 +291,112 @@ function CallToActionStrip({ onBookClick }: CallToActionStripProps) {
             Ready to talk about your car?
           </h2>
           <p className="text-sm md:text-base text-white/60">
-            Book a call with a German car specialist in Dubai. We&apos;ll review your vehicle, explain your options, and give you a clear estimate before you visit the workshop.
+            Chat with a German car specialist in Dubai. We&apos;ll review your vehicle, explain your options, and give you a clear estimate before you visit the workshop.
           </p>
         </div>
 
         <div className="flex flex-col sm:flex-row items-center gap-4">
-          <button
-            onClick={onBookClick}
+          <a
+            href="https://web.whatsapp.com/send?phone=971509894674&text="
+            target="_blank"
+            rel="noreferrer"
             className="btn btn-primary w-full sm:w-auto"
           >
-            Book a Call
-          </button>
+            Chat with Specialist
+          </a>
           <a
-            href="tel:+97141234567"
+            href="tel:+971509894674"
             className="text-sm text-white/70 hover:text-white/90 transition-colors whitespace-nowrap"
           >
-            Or call now: +971 4 123 4567
+            Or call now: +971 50 989 4674
           </a>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ============================================
+// LOCATION SECTION
+// ============================================
+
+function LocationSection() {
+  return (
+    <section className="section bg-background border-t border-white/6" aria-labelledby="location-title">
+      <div className="section-container">
+        <div className="flex flex-col lg:flex-row gap-12">
+          {/* Text Content */}
+          <div className="w-full lg:w-1/3 space-y-8">
+            <div>
+              <h2 id="location-title" className="section-title text-white/90 mb-4">
+                Find Our Workshop
+              </h2>
+              <p className="text-white/60">
+                Located in the heart of Al Quoz, our premium facility is easily accessible from Sheikh Zayed Road.
+              </p>
+            </div>
+
+            <div className="glass-card p-6 rounded-2xl border border-white/10 space-y-6">
+              <div className="flex gap-4">
+                <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center shrink-0 text-white/80">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                    <circle cx="12" cy="10" r="3" />
+                  </svg>
+                </div>
+                <div>
+                  <h3 className="text-white/90 font-medium mb-1">Profix Auto Care Garage</h3>
+                  <p className="text-white/60 text-sm">
+                    Al Quoz 3<br />
+                    Dubai, UAE
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex gap-4">
+                <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center shrink-0 text-white/80">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="12" cy="12" r="10" />
+                    <polyline points="12 6 12 12 16 14" />
+                  </svg>
+                </div>
+                <div>
+                  <h3 className="text-white/90 font-medium mb-1">Opening Hours</h3>
+                  <p className="text-white/60 text-sm">
+                    Mon–Sat: 8:00 AM – 6:00 PM<br />
+                    Friday: 2:00 PM – 6:00 PM
+                  </p>
+                </div>
+              </div>
+
+              <a
+                href="https://maps.google.com/?q=Profix+Auto+Care+Garage"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn btn-primary w-full justify-center mt-2 group"
+              >
+                Get Directions
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="ml-2 group-hover:translate-x-1 transition-transform">
+                    <path d="M5 12h14" />
+                    <path d="M12 5l7 7-7 7" />
+                </svg>
+              </a>
+            </div>
+          </div>
+
+          {/* Map */}
+          <div className="w-full lg:w-2/3 min-h-[400px] rounded-2xl overflow-hidden glass-card border border-white/10 relative group">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d451.5411605795638!2d55.21145135164262!3d25.12455601785229!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e5f6bfa35ea0ab7%3A0xa7958b75e76f3004!2sProfix%20Auto%20Care%20Garage!5e0!3m2!1sen!2sbd!4v1768760445499!5m2!1sen!2sbd"
+              width="100%"
+              height="100%"
+              style={{ border: 0 }}
+              allowFullScreen={true}
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              className="absolute inset-0 w-full h-full transition-all duration-500"
+            ></iframe>
+          </div>
         </div>
       </div>
     </section>
@@ -394,11 +407,7 @@ function CallToActionStrip({ onBookClick }: CallToActionStripProps) {
 // CONTACT SECTION
 // ============================================
 
-interface ContactSectionProps {
-  onBookClick: () => void;
-}
-
-function ContactSection({ onBookClick }: ContactSectionProps) {
+function ContactSection() {
   return (
     <section
       id="contact"
@@ -415,18 +424,18 @@ function ContactSection({ onBookClick }: ContactSectionProps) {
           </p>
           <div className="space-y-2 text-sm text-white/70">
             <p>
-              <strong className="text-white/90">Workshop:</strong> Al Quoz Industrial Area 3, Dubai
+              <strong className="text-white/90">Workshop:</strong> Al Quoz 3, Dubai, UAE
             </p>
             <p>
               <strong className="text-white/90">Phone:</strong>{' '}
-              <a href="tel:+97141234567" className="hover:text-white transition-colors">
-                +971 4 123 4567
+              <a href="tel:+971509894674" className="hover:text-white transition-colors">
+                +971 50 989 4674
               </a>
             </p>
             <p>
               <strong className="text-white/90">WhatsApp:</strong>{' '}
               <a
-                href="https://wa.me/971501234567"
+                href="https://web.whatsapp.com/send?phone=971509894674&text="
                 target="_blank"
                 rel="noreferrer"
                 className="hover:text-white transition-colors"
@@ -437,19 +446,13 @@ function ContactSection({ onBookClick }: ContactSectionProps) {
           </div>
         </div>
         <div className="flex flex-col gap-4 md:items-end">
-          <button
-            onClick={onBookClick}
-            className="btn btn-primary w-full md:w-auto"
-          >
-            Book a Call
-          </button>
           <a
-            href="https://wa.me/971501234567"
+            href="https://web.whatsapp.com/send?phone=971509894674&text="
             target="_blank"
             rel="noreferrer"
-            className="btn btn-glass w-full md:w-auto"
+            className="btn btn-primary w-full md:w-auto"
           >
-            Send WhatsApp Message
+           Chat on WhatsApp
           </a>
           <p className="text-xs text-white/40 max-w-xs text-center md:text-right">
             Average response time during working hours is under 10 minutes.
@@ -465,51 +468,46 @@ function ContactSection({ onBookClick }: ContactSectionProps) {
 // ============================================
 
 export default function Home() {
-  const [isBookingOpen, setIsBookingOpen] = useState(false);
-
-  const handleBookClick = () => {
-    setIsBookingOpen(true);
-
-    // Track CTA click
-    if (typeof window !== 'undefined' && (window as unknown as { dataLayer?: unknown[] }).dataLayer) {
-      (window as unknown as { dataLayer: { push: (obj: unknown) => void } }).dataLayer.push({
-        event: 'cta_click',
-        cta_location: 'booking_modal',
-      });
-    }
-  };
-
   return (
     <>
       {/* Header */}
-      <Header onBookClick={handleBookClick} />
+      <Header />
 
       {/* Main Content */}
       <main id="main-content">
         {/* Hero Scrollytelling Section */}
-        <CarScroll onBookClick={handleBookClick} />
+        <CarScroll />
 
         {/* Services Bento Grid */}
-        <ServicesBento />
+        <FadeIn>
+          <ServicesBento />
+        </FadeIn>
 
-        {/* Testimonials */}
-        <TestimonialsSection />
+
 
         {/* Call-Focused CTA Strip */}
-        <CallToActionStrip onBookClick={handleBookClick} />
+        <FadeIn delay={0.15}>
+          <CallToActionStrip />
+        </FadeIn>
 
         {/* Brands */}
-        <BrandsSection />
+        <FadeIn delay={0.2}>
+          <BrandsSection />
+        </FadeIn>
 
 		{/* Contact */}
-		<ContactSection onBookClick={handleBookClick} />
+        <FadeIn delay={0.25}>
+    		<ContactSection />
+        </FadeIn>
+
+        {/* Location */}
+        <FadeIn delay={0.3}>
+          <LocationSection />
+        </FadeIn>
       </main>
 
       {/* Footer */}
       <Footer />
-
-      {/* Booking Modal */}
-      <BookingModal isOpen={isBookingOpen} onClose={() => setIsBookingOpen(false)} />
     </>
   );
 }

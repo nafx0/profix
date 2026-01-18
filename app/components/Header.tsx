@@ -1,21 +1,17 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import Link from 'next/link';
-
-interface HeaderProps {
-  onBookClick: () => void;
-}
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import Link from "next/link";
 
 const navLinks = [
-  { href: '/', label: 'Home' },
-  { href: '/#services', label: 'Our Services' },
-  { href: '/#brands', label: 'Vehicle Brands' },
-  { href: '/#contact', label: 'Contact' },
+  { href: "/", label: "Home" },
+  { href: "/#services", label: "Our Services" },
+  { href: "/#brands", label: "Vehicle Brands" },
+  { href: "/#contact", label: "Contact" },
 ];
 
-export default function Header({ onBookClick }: HeaderProps) {
+export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -24,31 +20,31 @@ export default function Header({ onBookClick }: HeaderProps) {
       setIsScrolled(window.scrollY > 50);
     };
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   // Close mobile menu on escape key
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
+      if (e.key === "Escape") {
         setIsMobileMenuOpen(false);
       }
     };
 
-    document.addEventListener('keydown', handleEscape);
-    return () => document.removeEventListener('keydown', handleEscape);
+    document.addEventListener("keydown", handleEscape);
+    return () => document.removeEventListener("keydown", handleEscape);
   }, []);
 
   // Prevent body scroll when mobile menu is open
   useEffect(() => {
     if (isMobileMenuOpen) {
-      document.body.style.overflow = 'hidden';
+      document.body.style.overflow = "hidden";
     } else {
-      document.body.style.overflow = '';
+      document.body.style.overflow = "";
     }
     return () => {
-      document.body.style.overflow = '';
+      document.body.style.overflow = "";
     };
   }, [isMobileMenuOpen]);
 
@@ -56,52 +52,83 @@ export default function Header({ onBookClick }: HeaderProps) {
     <>
       <header
         className={`nav-header transition-all duration-300 ${
-          isScrolled ? 'nav-header--scrolled' : 'nav-header--top'
+          isScrolled ? "nav-header--scrolled" : "nav-header--top"
         }`}
       >
         <nav className="nav-inner" aria-label="Main navigation">
           {/* Logo */}
-          <Link href="/" className="nav-logo" aria-label="Profix Auto Care Home">
+          <Link
+            href="/"
+            className="nav-logo"
+            aria-label="Profix Auto Care Home"
+          >
             Profix Auto Care
           </Link>
 
           {/* Desktop Navigation */}
           <ul className="nav-links" role="menubar">
             {navLinks.map((link) => (
-              <li key={link.href} role="none">
+              <li key={link.href} role="none" className="relative group">
                 <Link
                   href={link.href}
-                  className="nav-link"
+                  className="nav-link relative block px-2 py-1"
                   role="menuitem"
                 >
-                  {link.label}
+                  <motion.span
+                    className="block text-sm"
+                    initial={{ y: 0 }}
+                    whileHover={{ y: -1 }}
+                    transition={{ ease: [0.22, 1, 0.36, 1], duration: 0.3 }}
+                  >
+                    {link.label}
+                  </motion.span>
+                  {/* Underline Interaction */}
+                  <span className="absolute bottom-0 left-0 w-full h-[1px] bg-white origin-center scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]" />
                 </Link>
               </li>
             ))}
           </ul>
 
           {/* Desktop CTA */}
-          <div className="hidden md:flex items-center gap-4">
-            <a
-              href="tel:+97141234567"
+          <div className="hidden md:flex items-center gap-6">
+            <motion.a
+              href="tel:+971509894674"
               className="text-sm text-white/60 hover:text-white/90 transition-colors hidden lg:inline-flex"
+              whileHover={{ scale: 1.04, y: -1 }}
+              whileTap={{ scale: 0.97 }}
+              transition={{ type: "spring", stiffness: 400, damping: 17 }}
             >
-              +971 4 123 4567
-            </a>
-            <button
-              onClick={onBookClick}
-              className="btn btn-primary"
-              aria-label="Book a call with a technician"
+              +971 50 989 4674
+            </motion.a>
+            <motion.a
+              href="https://web.whatsapp.com/send?phone=971509894674&text="
+              target="_blank"
+              rel="noreferrer"
+              className="btn btn-primary relative overflow-hidden"
+              aria-label="Chat with us on WhatsApp"
+              whileHover={{
+                scale: 1.04,
+                boxShadow: "0 0 20px rgba(255,255,255,0.15)",
+              }}
+              whileTap={{ scale: 0.97 }}
+              transition={{ type: "spring", stiffness: 300, damping: 20 }}
             >
-              Book a Call
-            </button>
+              WhatsApp Us
+              {/* Light Flash on Hover */}
+              <motion.div
+                className="absolute inset-0 bg-white/20 -skew-x-12"
+                initial={{ x: "-100%" }}
+                whileHover={{ x: "100%" }}
+                transition={{ duration: 0.5, ease: "easeOut" }}
+              />
+            </motion.a>
           </div>
 
           {/* Mobile Menu Button */}
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             className="md:hidden p-2 text-white/90"
-            aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
+            aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
             aria-expanded={isMobileMenuOpen}
             aria-controls="mobile-menu"
           >
@@ -185,7 +212,6 @@ export default function Header({ onBookClick }: HeaderProps) {
                     <button
                       onClick={() => {
                         setIsMobileMenuOpen(false);
-                        onBookClick();
                       }}
                       className="btn btn-primary btn-lg w-full mt-4"
                       aria-label="Book a call with a technician"

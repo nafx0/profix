@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   metadataBase: new URL('https://profixautocare.ae'),
   title: 'Profix Auto Care — Precision German Car Service in Dubai',
   description:
-    'Top-rated German car workshop in Al Quoz, Dubai. OEM parts, certified technicians, transparent pricing — Book online.',
+    'Top-rated German car workshop in Al Quoz 3, Dubai. OEM parts, certified technicians, transparent pricing — Book online.',
   keywords: [
     'German car service Dubai',
     'BMW service Dubai',
@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     'Audi service Dubai',
     'Porsche service Dubai',
     'VW service Dubai',
-    'Al Quoz car workshop',
+    'Al Quoz 3 car workshop',
     'German auto repair',
     'OEM parts Dubai',
   ],
@@ -94,31 +94,31 @@ const jsonLd = {
   url: 'https://profixautocare.ae',
   logo: 'https://profixautocare.ae/logo.png',
   image: 'https://profixautocare.ae/workshop.jpg',
-  telephone: '+971-4-XXX-XXXX',
-  email: 'service@profixautocare.ae',
+  telephone: '+971-50-989-4674',
+  email: 'info@profixautocare.com',
   address: {
     '@type': 'PostalAddress',
-    streetAddress: 'Al Quoz Industrial Area 3',
+    streetAddress: 'Al Quoz 3',
     addressLocality: 'Dubai',
     addressRegion: 'Dubai',
-    postalCode: 'XXXXX',
+    postalCode: '',
     addressCountry: 'AE',
   },
   geo: {
     '@type': 'GeoCoordinates',
-    latitude: 25.1234,
-    longitude: 55.1234,
+    latitude: 25.124556,
+    longitude: 55.211451,
   },
   openingHoursSpecification: [
     {
       '@type': 'OpeningHoursSpecification',
-      dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Saturday', 'Sunday'],
+      dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Saturday'],
       opens: '08:00',
       closes: '18:00',
     },
     {
       '@type': 'OpeningHoursSpecification',
-      dayOfWeek: 'Friday',
+      dayOfWeek: ['Friday'],
       opens: '14:00',
       closes: '18:00',
     },
@@ -155,19 +155,8 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         
-        {/* Preload critical assets */}
-        <link
-          rel="preload"
-          href="/sequence/poster.webp"
-          as="image"
-          type="image/webp"
-        />
-        
-        {/* Favicon */}
-        <link rel="icon" href="/favicon.ico" sizes="any" />
-        <link rel="icon" href="/icon.svg" type="image/svg+xml" />
-        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-        <link rel="manifest" href="/site.webmanifest" />
+
+
         
         {/* JSON-LD Structured Data */}
         <script

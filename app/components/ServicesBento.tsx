@@ -2,6 +2,7 @@
 
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
+import Link from 'next/link';
 
 interface Service {
   id: string;
@@ -141,13 +142,16 @@ interface ServiceCardProps {
   index: number;
 }
 
+const MotionLink = motion(Link);
+
 function ServiceCard({ service, index }: ServiceCardProps) {
-  const ref = useRef<HTMLDivElement>(null);
+  const ref = useRef<HTMLAnchorElement>(null);
   const isInView = useInView(ref, { once: true, margin: '-50px' });
 
   return (
-    <motion.div
+    <MotionLink
       ref={ref}
+      href={service.href}
       initial={{ opacity: 0, y: 30 }}
       animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
       transition={{
@@ -155,52 +159,51 @@ function ServiceCard({ service, index }: ServiceCardProps) {
         delay: index * 0.1,
         ease: [0.2, 0.8, 0.2, 1],
       }}
-      className={`glass-card bento-item group cursor-pointer ${
+      className={`glass-card bento-item group cursor-pointer block h-full ${
         service.size === 'large' ? 'bento-item-large' : ''
       }`}
-      role="article"
-      aria-labelledby={`service-title-${service.id}`}
+      aria-label={`Learn more about ${service.title}`}
     >
-      {/* Icon */}
-      <div className="mb-4 text-white/60 group-hover:text-white/90 transition-colors duration-300">
-        {service.icon}
-      </div>
+      <div className="flex flex-col h-full">
+        {/* Icon */}
+        <div className="mb-4 text-white/60 group-hover:text-white/90 transition-colors duration-300">
+          {service.icon}
+        </div>
 
-      {/* Title */}
-      <h3
-        id={`service-title-${service.id}`}
-        className="text-lg font-semibold text-white/90 mb-2"
-      >
-        {service.title}
-      </h3>
-
-      {/* Description */}
-      <p className="text-white/60 text-sm mb-4 leading-relaxed">
-        {service.description}
-      </p>
-
-      {/* Read More Link */}
-      <a
-        href={service.href}
-        className="inline-flex items-center gap-1 text-sm text-white/60 hover:text-white/90 transition-colors group/link"
-        aria-label={`Read more about ${service.title}`}
-      >
-        Read More
-        <svg
-          width="16"
-          height="16"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          className="transform group-hover/link:translate-x-1 transition-transform"
+        {/* Title */}
+        <h3
+          id={`service-title-${service.id}`}
+          className="text-lg font-semibold text-white/90 mb-2"
         >
-          <path d="M5 12h14M12 5l7 7-7 7" />
-        </svg>
-      </a>
-    </motion.div>
+          {service.title}
+        </h3>
+
+        {/* Description */}
+        <p className="text-white/60 text-sm mb-4 leading-relaxed flex-grow">
+          {service.description}
+        </p>
+
+        {/* Visual Read More Link */}
+        <span
+          className="inline-flex items-center gap-1 text-sm text-white/60 hover:text-white/90 transition-colors group/link"
+        >
+          Read More
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="transform group-hover:translate-x-1 transition-transform"
+          >
+            <path d="M5 12h14M12 5l7 7-7 7" />
+          </svg>
+        </span>
+      </div>
+    </MotionLink>
   );
 }
 
